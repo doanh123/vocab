@@ -21,7 +21,32 @@ def findimage(content):
        links.append(content[index4-1:content.find("&",index4)])
     return links
 
+def bingimageurl(url):
+    return findimage(readsitecontent(url))
 
-sitecontent = readsitecontent("http://bing.com/images/search?q=dog")
-print findimage(sitecontent)
+def bingimagesearch(word):
+    url = "http://bing.com/images/search?q=" +word
+    return findimage(readsitecontent(url))
+
+#sitecontent = readsitecontent("http://bing.com/images/search?q=dog")
+#print findimage(sitecontent)
 #print readsitecontent("http://bing.com/images/search?q=cats")
+
+""" get definition and sound files """
+def getaudio(url):
+    content = readsitecontent(url)
+    links =[]
+    audio = content.find("audio")
+    start1= content.find("http",audio)
+    end1 = content.find("mp3", audio)
+    links.append(content[start1:end1 + 3])
+    return links
+
+def getdictionaryaudio(word):
+    """takes any word and returns the audio file from dictionary.reference.com"""
+    url = "http://dictionary.reference.com/browse/" + str(word)
+    return getaudio(url)
+
+def getaudiotest():
+    """looks up the audio file for the word tree"""
+    print getaudio("http://dictionary.reference.com/browse/tree")
